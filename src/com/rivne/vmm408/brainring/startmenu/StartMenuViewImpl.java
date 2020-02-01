@@ -1,74 +1,129 @@
 package com.rivne.vmm408.brainring.startmenu;
 
 import com.rivne.vmm408.brainring.data.DataPresenterImpl;
-import com.rivne.vmm408.brainring.models.DuelModel;
-import com.rivne.vmm408.brainring.models.TeamModel;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class StartMenuViewImpl implements StartMenuView {
     private StartMenuPresenter startMenuPresenter;
-    private JFrame frame;
+    private JFrame startMenuFrame;
     private JTextField teamsCountText;
     private JTextField questionsPerTeamText;
     private JTextField duelsCountText;
     private JTextField questionsPerDuelText;
     private JTextField questionsSetText;
+    private JButton generateBtn;
 
     public static void main(String[] args) {
         new StartMenuViewImpl();
     }
 
     public StartMenuViewImpl() {
-        startMenuPresenter = new StartMenuPresenterImpl(this);
-        initFrame();
-        initComponents();
-        frame.pack();
+        setupFrame();
+        startMenuPresenter = new StartMenuPresenterImpl(this, new DataPresenterImpl());
     }
 
-    private void initFrame() {
-        frame = new JFrame();
-        frame.setTitle("Menu Brain Rank");
-        frame.setLocation(300, 300);
-        frame.getContentPane().setLayout(new FlowLayout());
-        initFrameExitConfirmDialog();
-        frame.setVisible(true);
+    private void setupFrame() {
+        startMenuFrame = new StartMenuFrame();
+        startMenuFrame.getContentPane().add(initComponents());
+        startMenuFrame.getContentPane().add(initGenerateBtn());
+        startMenuFrame.pack();
     }
 
-    private void initFrameExitConfirmDialog() {
-        frame.addWindowListener(new WindowAdapter() {
+    private JPanel initComponents() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+
+
+        panel.add(initTextFieldPanel(new JLabel("Teams:"), teamsCountText = new JTextField(3)));
+        panel.add(initTextFieldPanel(new JLabel("Questions per team:"), questionsPerTeamText = new JTextField(3)));
+        panel.add(initTextFieldPanel(new JLabel("Duels:"), duelsCountText = new JTextField(3)));
+        panel.add(initTextFieldPanel(new JLabel("Questions per duel:"), questionsPerDuelText = new JTextField(3)));
+        panel.add(initTextFieldPanel(new JLabel("Questions count:"), questionsSetText = new JTextField(3)));
+
+        teamsCountText.setEditable(false);
+        questionsPerTeamText.setEditable(false);
+        duelsCountText.setEditable(false);
+        questionsPerDuelText.setEditable(false);
+        questionsSetText.setEditable(false);
+
+        JCheckBox teamCheckBox = new JCheckBox("Team");
+        teamCheckBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                startMenuPresenter.teamCheckBoxIsSelected(true);
+            } else {
+                startMenuPresenter.teamCheckBoxIsSelected(false);
+            }
+        });
+        JCheckBox duelCheckBox = new JCheckBox("Duel");
+        duelCheckBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                startMenuPresenter.duelCheckBoxIsSelected(true);
+            } else {
+                startMenuPresenter.duelCheckBoxIsSelected(false);
+            }
+        });
+
+        panel.add(teamCheckBox);
+        panel.add(duelCheckBox);
+        return panel;
+    }
+
+    private JPanel initTextFieldPanel(JLabel jLabel, JTextField jTextField) {
+        initListener(jTextField);
+        JPanel panel = new JPanel();
+        panel.add(jLabel);
+        panel.add(jTextField);
+        return panel;
+    }
+
+    private void initListener(JTextField jTextField) {
+        jTextField.setTransferHandler(null);
+        jTextField.addKeyListener(new KeyAdapter() {
             @Override
-            public void windowClosing(WindowEvent e) {
-                int confirmed = JOptionPane.showConfirmDialog(null,
-                        "Are you sure you want to exit the program?", "Exit Program",
-                        JOptionPane.YES_NO_OPTION);
-                if (confirmed == JOptionPane.YES_OPTION) {
-                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                } else {
-                    frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            public void keyTyped(KeyEvent e) {
+                if (jTextField.getText().length() >= 3) {
+                    e.consume();
+                }
+                if ((e.getKeyChar() < '0' || e.getKeyChar() > '9')
+                        && e.getKeyChar() != '\b') {
+                    e.consume();
                 }
             }
         });
     }
 
-    private void initComponents() {
-        frame.getContentPane().add(new JLabel("   Teams:"));
-        frame.getContentPane().add(teamsCountText = new JTextField(3));
-        frame.getContentPane().add(new JLabel("   Questions per team:"));
-        frame.getContentPane().add(questionsPerTeamText = new JTextField(3));
-        frame.getContentPane().add(new JLabel("   Duels:"));
-        frame.getContentPane().add(duelsCountText = new JTextField(3));
-        frame.getContentPane().add(new JLabel("   Questions per duel:"));
-        frame.getContentPane().add(questionsPerDuelText = new JTextField(3));
-        frame.getContentPane().add(new JLabel("   Questions count:"));
-        frame.getContentPane().add(questionsSetText = new JTextField(3));
-        JButton generateBtn;
-        frame.getContentPane().add(generateBtn = new JButton("Generate"));
+    private JButton initGenerateBtn() {
+        generateBtn = new JButton("Generate");
+        generateBtn.setEnabled(false);
         generateBtn.addActionListener(e -> startMenuPresenter.generateListBtnPressed());
+        return generateBtn;
+    }
+
+    @Override
+    public void teamFieldsAreEditable(boolean isEditable) {
+        teamsCountText.setEditable(isEditable);
+        questionsPerTeamText.setEditable(isEditable);
+    }
+
+    @Override
+    public void duelFieldsAreEditable(boolean isEditable) {
+        duelsCountText.setEditable(isEditable);
+        questionsPerDuelText.setEditable(isEditable);
+    }
+
+    @Override
+    public void questionNumIsEditable(boolean isEditable) {
+        questionsSetText.setEditable(isEditable);
+    }
+
+    @Override
+    public void generateBtnIsEnabled(boolean isEnabled) {
+        generateBtn.setEnabled(isEnabled);
     }
 
     @Override
@@ -97,39 +152,18 @@ public class StartMenuViewImpl implements StartMenuView {
     }
 
     @Override
-    public void showResults() {
-        java.util.List<Integer> integerList = DataPresenterImpl.getIntegerList();
-        java.util.List<TeamModel> teamModelList = DataPresenterImpl.getTeamModelList();
-        java.util.List<DuelModel> duelModelList = DataPresenterImpl.getDuelModelList();
+    public void showResults(List<String> stringList) {
+        JScrollPane jScrollPane = new JScrollPane(new JList<>(getList(stringList)));
+        jScrollPane.createVerticalScrollBar();
+        startMenuFrame.getContentPane().add(jScrollPane);
+        startMenuFrame.pack();
+    }
 
+    private DefaultListModel<String> getList(List<String> stringList) {
         DefaultListModel<String> list = new DefaultListModel<>();
-
-        for (TeamModel teamModel : teamModelList) {
-            StringBuilder text = new StringBuilder("TEAM_" + teamModel.getId() + ":     ");
-            java.util.List<Integer> integers = teamModel.getIntegerList();
-            for (Integer integer : integers) {
-                text.append(integer).append("   ");
-            }
-            list.addElement(text.toString());
+        for (String s : stringList) {
+            list.addElement(s);
         }
-
-        for (DuelModel duelModel : duelModelList) {
-            StringBuilder text = new StringBuilder("DUEl_" + duelModel.getId() + ":     ");
-            List<Integer> integers = duelModel.getIntegerList();
-            for (Integer integer : integers) {
-                text.append(integer).append("   ");
-            }
-            list.addElement(text.toString());
-        }
-
-        StringBuilder text = new StringBuilder("Extra Questions:     ");
-        for (Integer integer : integerList) {
-            text.append(integer).append("   ");
-        }
-        list.addElement(text.toString());
-
-
-        frame.getContentPane().add(new JList<>(list));
-        frame.pack();
+        return list;
     }
 }
