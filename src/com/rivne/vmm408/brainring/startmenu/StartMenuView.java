@@ -1,15 +1,25 @@
 package com.rivne.vmm408.brainring.startmenu;
 
+import java.util.List;
+
 public interface StartMenuView {
-    public int getTeamNum();
+    void teamFieldsAreEditable(boolean isEditable);
 
-    public int getQuestionNumPerTeam();
+    void duelFieldsAreEditable(boolean isEditable);
 
-    public int getDuelNum();
+    void questionNumIsEditable(boolean isEditable);
 
-    public int getQuestionNumPerDuel();
+    void generateBtnIsEnabled(boolean isEnabled);
 
-    public int getQuestionNum();
+    int getTeamNum();
 
-    public void showResults();
+    int getQuestionNumPerTeam();
+
+    int getDuelNum();
+
+    int getQuestionNumPerDuel();
+
+    int getQuestionNum();
+
+    void showResults(List<String> stringList);
 }
