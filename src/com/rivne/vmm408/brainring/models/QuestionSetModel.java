@@ -8,10 +8,6 @@ public class QuestionSetModel extends IdModel {
     public QuestionSetModel() {
     }
 
-    public QuestionSetModel(List<Integer> integerList) {
-        this.integerList = integerList;
-    }
-
     public void setIntegerList(List<Integer> integerList) {
         this.integerList = integerList;
     }
