@@ -1,8 +1,8 @@
 package com.rivne.vmm408.brainring.startmenu;
 
 import com.rivne.vmm408.brainring.data.DataPresenterImpl;
-import com.rivne.vmm408.brainring.models.DuelModel;
-import com.rivne.vmm408.brainring.models.TeamModel;
+import com.rivne.vmm408.brainring.pojo.DuelModel;
+import com.rivne.vmm408.brainring.pojo.TeamModel;
 
 import java.util.ArrayList;
 import java.util.List;
