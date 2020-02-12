@@ -18,9 +18,9 @@ public class StartMenuViewImpl implements StartMenuView {
     private JTextField questionsSetText;
     private JButton generateBtn;
 
-    public static void main(String[] args) {
-        new StartMenuViewImpl();
-    }
+//    public static void main(String[] args) {
+//        new StartMenuViewImpl();
+//    }
 
     public StartMenuViewImpl() {
         setupFrame();
@@ -28,7 +28,7 @@ public class StartMenuViewImpl implements StartMenuView {
     }
 
     private void setupFrame() {
-        startMenuFrame = new StartMenuFrame();
+//        startMenuFrame = new StartMenuFrame();
         startMenuFrame.getContentPane().add(initComponents());
         startMenuFrame.getContentPane().add(initGenerateBtn());
         startMenuFrame.pack();
