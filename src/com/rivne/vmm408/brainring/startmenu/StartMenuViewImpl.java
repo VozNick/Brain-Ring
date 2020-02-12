@@ -39,17 +39,12 @@ public class StartMenuViewImpl implements StartMenuView {
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
 
-        panel.add(initTextFieldPanel(new JLabel("Teams:"), teamsCountText = new JTextField(3)));
-        panel.add(initTextFieldPanel(new JLabel("Questions per team:"), questionsPerTeamText = new JTextField(3)));
-        panel.add(initTextFieldPanel(new JLabel("Duels:"), duelsCountText = new JTextField(3)));
-        panel.add(initTextFieldPanel(new JLabel("Questions per duel:"), questionsPerDuelText = new JTextField(3)));
-        panel.add(initTextFieldPanel(new JLabel("Questions count:"), questionsSetText = new JTextField(3)));
+        panel.add(initTextFieldPanel(new JLabel("Teams:"), teamsCountText = new JTextField()));
+        panel.add(initTextFieldPanel(new JLabel("Questions per team:"), questionsPerTeamText = new JTextField()));
+        panel.add(initTextFieldPanel(new JLabel("Duels:"), duelsCountText = new JTextField()));
+        panel.add(initTextFieldPanel(new JLabel("Questions per duel:"), questionsPerDuelText = new JTextField()));
+        panel.add(initTextFieldPanel(new JLabel("Questions count:"), questionsSetText = new JTextField()));
 
-        teamsCountText.setEditable(false);
-        questionsPerTeamText.setEditable(false);
-        duelsCountText.setEditable(false);
-        questionsPerDuelText.setEditable(false);
-        questionsSetText.setEditable(false);
 
         JCheckBox teamCheckBox = new JCheckBox("Team");
         teamCheckBox.addItemListener(e -> {
@@ -82,17 +77,14 @@ public class StartMenuViewImpl implements StartMenuView {
     }
 
     private void initListener(JTextField jTextField) {
+        jTextField.setColumns(3);
+        jTextField.setEditable(false);
         jTextField.setTransferHandler(null);
         jTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if (jTextField.getText().length() >= 3) {
-                    e.consume();
-                }
-                if ((e.getKeyChar() < '0' || e.getKeyChar() > '9')
-                        && e.getKeyChar() != '\b') {
-                    e.consume();
-                }
+                if (jTextField.getText().length() >= 3) e.consume();
+                if ((e.getKeyChar() < '0' || e.getKeyChar() > '9') && e.getKeyChar() != '\b') e.consume();
             }
         });
     }
