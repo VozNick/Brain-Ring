@@ -1,4 +1,4 @@
-package com.rivne.vmm408.brainring.models;
+package com.rivne.vmm408.brainring.pojo;
 
 import java.util.List;
 
