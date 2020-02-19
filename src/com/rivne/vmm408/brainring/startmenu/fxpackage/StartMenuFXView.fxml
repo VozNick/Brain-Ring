@@ -4,28 +4,28 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="anchotpan"
-            prefHeight="180.0"
-            prefWidth="550.0"
-            xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.rivne.vmm408.brainring.startmenu.fxpackage.StartMenuFXView">
+<AnchorPane id="anchor_pane" prefHeight="180.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rivne.vmm408.brainring.startmenu.fxpackage.StartMenuFXView">
     <children>
-        <CheckBox id="id_team_cb" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Teams" />
-        <CheckBox id="id_duel_cb" layoutX="280.0" layoutY="14.0" mnemonicParsing="false" text="Duels" />
+        <CheckBox fx:id="id_team_cb" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#team_cb_on_click" text="Teams" />
+        <CheckBox fx:id="id_duel_cb" layoutX="280.0" layoutY="14.0" mnemonicParsing="false" onAction="#duel_cb_on_click" text="Duels" />
         <Label layoutX="19.0" layoutY="39.0" text="Team count" />
         <Label layoutX="14.0" layoutY="77.0" text="Question count per team" />
         <Label layoutX="306.0" layoutY="38.0" text="Duel count" />
         <Label layoutX="268.0" layoutY="74.0" text="Question count per duel" />
-        <TextField id="id_team_count_tf" layoutX="100.0" layoutY="34.0" prefHeight="26.0" prefWidth="52.0" />
-        <TextField id="id_question_team_tf" layoutX="157.0" layoutY="72.0" prefHeight="26.0" prefWidth="52.0" />
-        <TextField id="id_duel_count_tf" layoutX="403.0" layoutY="34.0" prefHeight="26.0" prefWidth="52.0" />
-        <TextField id="id_question_duel_tf" layoutX="403.0" layoutY="70.0" prefHeight="26.0" prefWidth="52.0" />
+        <TextField fx:id="id_team_count_tf" disable="true" layoutX="100.0" layoutY="34.0" onKeyTyped="#id_key_listener_tf" prefWidth="40.0" />
+        <TextField fx:id="id_question_team_tf" disable="true" layoutX="157.0" layoutY="72.0" prefWidth="40.0" />
+        <TextField fx:id="id_duel_count_tf" disable="true" layoutX="403.0" layoutY="34.0" prefWidth="40.0" />
+        <TextField fx:id="id_question_duel_tf" disable="true" layoutX="403.0" layoutY="70.0" prefWidth="40.0" />
         <Label layoutX="14.0" layoutY="138.0" text="Question number set" />
-        <TextField id="id_question_set_tf" layoutX="139.0" layoutY="133.0" prefHeight="26.0" prefWidth="52.0" />
-        <Button id="id_generate_btn" layoutX="274.0" layoutY="134.0" mnemonicParsing="false" text="Generate" />
+        <TextField fx:id="id_question_set_tf" disable="true" layoutX="139.0" layoutY="133.0" prefWidth="40.0" />
+        <Button fx:id="id_generate_btn" disable="true" layoutX="274.0" layoutY="134.0" mnemonicParsing="false" onAction="#generate_btn_on_click" text="Generate" />
+      <ScrollPane fx:id="id_result_list" layoutX="14.0" layoutY="196.0" prefHeight="200.0" prefWidth="543.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+        </content>
+      </ScrollPane>
     </children>
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
 </AnchorPane>
